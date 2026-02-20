@@ -1,12 +1,12 @@
 import { LuMoonStar } from "react-icons/lu";
+import { Image, Link } from "@heroui/react";
 
-const Logo = ({ logo = false }) => {
+export default function Logo({ logo = false }) {
   return (
-    <span className="flex gap-2 items-center text-primary font-semibold">
-      {logo && <LuMoonStar size={24} />}
-      SIMUS
-    </span>
+    <Link href={"/"} className="flex items-center ml-3 gap-1">
+      {/* <Image src="/logo.png" alt="Logo" width={20} height={20} /> */}
+      {logo && <LuMoonStar size={28} />}
+      <h1 className={`font-semibold text-emerald-500 text-2xl`}>SIMUS</h1>
+    </Link>
   );
-};
-
-export default Logo;
+}
