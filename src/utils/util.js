@@ -9,4 +9,12 @@ function getDate() {
   return formattedDate;
 }
 
-export { getDate };
+function parseHijriDate(date) {
+  return `${date.hijri.day} ${date.hijri.month.en} ${date.hijri.year}`;
+}
+
+function parseGregorianDate(date) {
+  return `${date.gregorian.day} ${date.gregorian.month.en} ${date.gregorian.year}`;
+}
+
+export { getDate, parseHijriDate, parseGregorianDate };

@@ -6,6 +6,7 @@ function getLocation() {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        console.log(position);
         resolve({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -31,6 +32,7 @@ async function fetchPrayerTimes() {
     const response = await prayerInstance.get(
       `/timings/${date}?latitude=${latitude}&longitude=${longitude}`,
     );
+    console.log(response);
     return response.data.data;
   } catch (error) {
     console.error(error);
