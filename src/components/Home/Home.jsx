@@ -4,11 +4,17 @@ import { parseGregorianDate, parseHijriDate } from "../../utils/util";
 import { PrayerTimes } from "./PrayerTimes";
 
 export const Home = () => {
-  const { data: pt } = usePrayerTimes();
+  const { data: pt, isPending } = usePrayerTimes();
 
-  if (!pt) {
+  if (isPending) {
     // TODO: add skeleton
-    return <Spinner />;
+    return (
+      <>
+        <section className="absolute top-0 flex w-full h-screen items-center justify-center">
+          <Spinner size="lg" />
+        </section>
+      </>
+    );
   }
 
   return (
@@ -18,7 +24,7 @@ export const Home = () => {
         <span>{parseGregorianDate(pt.date)}</span>
         <span>{pt.meta.timezone}</span>
       </section>
-      <PrayerTimes timings={pt.timings}/>
+      <PrayerTimes timings={pt.timings} />
       {/* <section>{JSON.stringify(pt, null, 2)}</section> */}
     </>
   );

@@ -2,21 +2,16 @@ import { TimeCard } from "./TimeCard";
 import { LuMoonStar } from "react-icons/lu";
 
 export function PrayerTimes({ timings }) {
-  const ignoredTimes = [
-    "Sunset",
-    "Midnight",
-    "Firstthird",
-    "Lastthird",
-    "Imsak",
-  ];
-
   return (
     <section className="flex flex-col w-full gap-2">
-      jam
-      {Object.entries(timings).map(([key, value]) => {
-        if (ignoredTimes.includes(key)) return;
-        return <TimeCard key={key} icon={<LuMoonStar/>} label={key} time={value} />;
-      })}
+      {timings.map((timing) => (
+        <TimeCard
+          key={timing.prayer_name}
+          label={timing.prayer_name}
+          time={timing.time}
+          is_active={timing.is_active}
+        />
+      ))}
     </section>
   );
 }

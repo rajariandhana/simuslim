@@ -6,7 +6,7 @@ function getLocation() {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position);
+        // console.log(position);
         resolve({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -24,6 +24,60 @@ function getLocation() {
   });
 }
 
+function removeTimings(timings, ignoredTimes) {
+  const filteredTimings = Object.entries(timings).filter(
+    ([prayerName]) => !ignoredTimes.includes(prayerName),
+  );
+
+  const filteredTimingsObject = Object.fromEntries(filteredTimings);
+  return filteredTimingsObject;
+}
+function reformatPrayerTimes(timings) {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinute = currentTime.getMinutes();
+
+  const currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+  const prayerTimesList = Object.entries(timings)
+    .map(([prayer, time]) => {
+      const [hours, minutes] = time.split(":").map(Number);
+      const prayerTimeInMinutes = hours * 60 + minutes;
+      return { prayer_name: prayer, time, prayerTimeInMinutes };
+    })
+    .sort((a, b) => a.prayerTimeInMinutes - b.prayerTimeInMinutes);
+
+  let isActiveFound = false;
+
+  const formattedPrayerTimes = prayerTimesList.map((prayer, index) => {
+    let isActive = false;
+
+    if (!isActiveFound) {
+      const nextPrayer = prayerTimesList[index + 1];
+      if (nextPrayer) {
+        if (
+          currentTimeInMinutes >= prayer.prayerTimeInMinutes &&
+          currentTimeInMinutes < nextPrayer.prayerTimeInMinutes
+        ) {
+          isActive = true;
+          isActiveFound = true;
+        }
+      } else {
+        isActive = currentTimeInMinutes >= prayer.prayerTimeInMinutes;
+        isActiveFound = true;
+      }
+    }
+
+    return {
+      prayer_name: prayer.prayer_name,
+      time: prayer.time,
+      is_active: isActive,
+    };
+  });
+
+  return formattedPrayerTimes;
+}
+
 async function fetchPrayerTimes() {
   try {
     const { latitude, longitude } = await getLocation();
@@ -32,8 +86,23 @@ async function fetchPrayerTimes() {
     const response = await prayerInstance.get(
       `/timings/${date}?latitude=${latitude}&longitude=${longitude}`,
     );
-    console.log(response);
-    return response.data.data;
+    const data = response.data.data;
+    const ignoredTimes = [
+      "Sunset",
+      "Midnight",
+      "Firstthird",
+      "Lastthird",
+      "Imsak",
+    ];
+    const removedTimings = removeTimings(data.timings, ignoredTimes);
+    const formattedTimes = reformatPrayerTimes(removedTimings);
+
+    const result = {
+      ...data,
+      timings: formattedTimes,
+    };
+    // console.log(result);
+    return result;
   } catch (error) {
     console.error(error);
   }
