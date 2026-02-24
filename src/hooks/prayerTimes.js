@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import prayerInstance from "../libs/axios/prayerInstance";
-import { getDate } from "../utils/util";
+import { formatToYMD, getDate } from "../utils/util";
 
 function getLocation() {
   return new Promise((resolve, reject) => {
@@ -68,13 +68,20 @@ function reformatPrayerTimes(timings) {
       }
     }
 
+    const date = {
+      year: currentTime.getFullYear(),
+      month: currentTime.getMonth(),
+      day: currentTime.getDate(),
+    };
+    const key = `${formatToYMD(date)}-${prayer.time}:00`;
     return {
+      key,
       prayer_name: prayer.prayer_name,
       time: prayer.time,
       is_active: isActive,
     };
   });
-
+  // console.log(formattedPrayerTimes);
   return formattedPrayerTimes;
 }
 

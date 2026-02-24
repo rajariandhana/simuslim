@@ -1,53 +1,71 @@
 import { Card, CardFooter, CardHeader, Chip, Image } from "@heroui/react";
-import { parseGregorianDate, parseHijriDate } from "../../utils/util";
+import { getCurrentTimeHHMM } from "../../utils/util";
+import Clock from "./Clock";
+import CountdownPrayerTime from "./CountdownPrayerTime";
+import Current from "./Current";
 
 const skyImages = {
-  morning: "https://heroui.com/images/card-example-1.jpeg",
-  afternoon: "https://heroui.com/images/card-example-2.jpeg",
-  evening: "https://heroui.com/images/card-example-3.jpeg",
-  night: "https://heroui.com/images/card-example-4.jpeg",
+  morning: "/sky/morning.png",
+  afternoon: "/sky/afternoon.png",
+  evening: "/sky/evening.png",
+  night: "/sky/night.png",
 };
 
-// Get the current hour and return the appropriate sky image
 function getSkyImage() {
-  const currentHour = new Date().getHours(); // Get current hour (0-23)
+  const currentHour = new Date().getHours();
 
   if (currentHour >= 6 && currentHour < 9) {
-    return skyImages.morning; // Morning image
+    return skyImages.morning;
   } else if (currentHour >= 9 && currentHour < 17) {
-    return skyImages.afternoon; // Afternoon image
+    return skyImages.afternoon;
   } else if (currentHour >= 17 && currentHour < 20) {
-    return skyImages.evening; // Evening image
+    return skyImages.evening;
   } else {
-    return skyImages.night; // Night image
+    return skyImages.night;
   }
 }
 
-export function Banner({ date, timezone }) {
-  const gregorian = parseGregorianDate(date);
-  const hijri = parseHijriDate(date);
-  function parseTimezone(timezone) {
-    const splitted = timezone.split("/");
-    return `${splitted[1]}, ${splitted[0]}`;
+function getCurrentPrayer(timings) {
+  const currentTime = getCurrentTimeHHMM();
+  // const currentTime = "12:11";
+
+  let current_prayer = timings[timings.length - 1];
+  let next_prayer = timings[0];
+
+  for (let i = 0; i < timings.length; i++) {
+    if (currentTime < timings[i].time) {
+      next_prayer = timings[i];
+      current_prayer = i === 0 ? timings[timings.length - 1] : timings[i - 1];
+      break;
+    }
   }
+  // console.log(
+  //   "current",
+  //   current_prayer.prayer_name,
+  //   "next",
+  //   next_prayer.prayer_name,
+  // );
+  return { current_prayer, next_prayer };
+}
+
+export function Banner({ timezone, timings }) {
+  const prayer = getCurrentPrayer(timings);
   return (
     <Card className="col-span-12 sm:col-span-4 w-full h-40">
-      <CardHeader className="absolute z-20 top-0 right-0 flex justify-between text-white">
-        <div className="flex items-center gap-1">
-          <span>Isya</span>
-          <Chip size="sm" color="primary">
-            Now
-          </Chip>
+      <CardHeader className="absolute z-20 top-0 flex justify-between text-white">
+        <div className="flex items-center gap-2 text-xl">
+          <span>{prayer.current_prayer.prayer_name}</span>
+          <Current current={prayer.current_prayer} next={prayer.next_prayer} />
         </div>
-        <h4 className=" font-medium text-large">XX:XX</h4>
+        <Clock />
       </CardHeader>
-      <CardFooter className="absolute z-20 bottom-0 flex-col items-start!">
-        <p className="text-tiny text-white/80 uppercase font-bold">
-          {gregorian} | {hijri}
-        </p>
-        <h4 className="text-white font-medium text-large">
-          {parseTimezone(timezone)}
-        </h4>
+      <CardFooter className="absolute z-20 bottom-0 flex justify-end text-white">
+        <div className="flex items-center gap-2">
+          <span>{prayer.next_prayer.prayer_name}</span>
+          <span className="text-xs">
+            in <CountdownPrayerTime target={prayer.next_prayer.time} />
+          </span>
+        </div>
       </CardFooter>
       <Image
         removeWrapper

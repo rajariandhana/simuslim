@@ -9,6 +9,32 @@ function getDate() {
   return formattedDate;
 }
 
+function formatToYMD(dateValue) {
+  const { year, month, day } = dateValue;
+
+  const mm = String(month).padStart(2, "0");
+  const dd = String(day).padStart(2, "0");
+
+  return `${year}-${mm}-${dd}`;
+}
+
+function getCurrentTimeHHMM() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
+
+function timeToMinutes(timeStr) {
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
+function parseTimezone(timezone) {
+  const splitted = timezone.split("/");
+  return `${splitted[1]}, ${splitted[0]}`;
+}
+
 function parseHijriDate(date) {
   return `${date.hijri.day} ${date.hijri.month.en} ${date.hijri.year}`;
 }
@@ -17,4 +43,12 @@ function parseGregorianDate(date) {
   return `${date.gregorian.day} ${date.gregorian.month.en} ${date.gregorian.year}`;
 }
 
-export { getDate, parseHijriDate, parseGregorianDate };
+export {
+  getDate,
+  formatToYMD,
+  getCurrentTimeHHMM,
+  timeToMinutes,
+  parseTimezone,
+  parseHijriDate,
+  parseGregorianDate,
+};
