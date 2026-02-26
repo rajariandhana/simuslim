@@ -54,8 +54,15 @@ export function Banner({ timezone, timings }) {
     <Card className="col-span-12 sm:col-span-4 w-full h-40">
       <CardHeader className="absolute z-20 top-0 flex justify-between text-white">
         <div className="flex items-center gap-2 text-xl">
-          <span>{prayer.current_prayer.prayer_name}</span>
-          <Current current={prayer.current_prayer} next={prayer.next_prayer} />
+          {prayer.current_prayer === "Sunrise" ? null : (
+            <>
+              <span>{prayer.current_prayer.prayer_name}</span>
+              <Current
+                current={prayer.current_prayer}
+                next={prayer.next_prayer}
+              />
+            </>
+          )}
         </div>
         <Clock />
       </CardHeader>

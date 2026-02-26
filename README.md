@@ -21,3 +21,5 @@ current prayer, status: just now | now | almost over
 next prayer countdown: in X hour | X minutes
 
 create time context provider
+
+give threats like "you wanna go to hell?"

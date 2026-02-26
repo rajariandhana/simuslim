@@ -7,7 +7,7 @@ import { parseGregorianDate, parseHijriDate, parseTimezone } from "../../utils/u
 export const Home = () => {
   const { data: pt, isPending } = usePrayerTimes();
 
-  if (isPending) {
+  if (isPending || !pt) {
     // TODO: add skeleton
     return (
       <>

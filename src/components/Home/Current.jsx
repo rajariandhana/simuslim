@@ -1,20 +1,13 @@
 import { Chip } from "@heroui/react";
-import { useEffect, useState } from "react";
-import { getCurrentTimeHHMM, timeToMinutes } from "../../utils/util";
+import { useContext, useEffect, useState } from "react";
+import { timeToMinutes } from "../../utils/util";
+import { MinuteContext } from "../../context/timeContext";
 
 export default function Current({ current, next }) {
-  const [time, setTime] = useState(getCurrentTimeHHMM());
-  // const [time, setTime] = useState("15:14");
+  const {time} = useContext(MinuteContext);
 
   const [color, setColor] = useState("primary");
   const [status, setStatus] = useState("Now");
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(getCurrentTimeHHMM());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const nowMinutes = timeToMinutes(time);

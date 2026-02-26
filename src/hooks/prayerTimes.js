@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import prayerInstance from "../libs/axios/prayerInstance";
 import { formatToYMD, getDate } from "../utils/util";
+import instance from "../libs/axios/instance";
 
 function getLocation() {
+  // console.log("getLocation");
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -88,6 +90,7 @@ function reformatPrayerTimes(timings) {
 async function fetchPrayerTimes() {
   try {
     const { latitude, longitude } = await getLocation();
+    // console.log("latlon", latitude, longitude);
     const date = getDate();
 
     const response = await prayerInstance.get(
@@ -104,6 +107,10 @@ async function fetchPrayerTimes() {
     const removedTimings = removeTimings(data.timings, ignoredTimes);
     const formattedTimes = reformatPrayerTimes(removedTimings);
 
+    instance.post("/prayer/location", {
+      latitude,
+      longitude,
+    });
     const result = {
       ...data,
       timings: formattedTimes,
@@ -119,5 +126,6 @@ export function usePrayerTimes() {
   return useQuery({
     queryKey: ["prayerTimes"],
     queryFn: fetchPrayerTimes,
+    staleTime: 1000 * 60 * 60 * 2 // 2 hours
   });
 }
