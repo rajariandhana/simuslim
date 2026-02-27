@@ -1,4 +1,4 @@
-import { Card, CardFooter, CardHeader, Chip, Image } from "@heroui/react";
+import { Card, CardFooter, CardHeader, Image } from "@heroui/react";
 import { getCurrentTimeHHMM } from "../../utils/util";
 import Clock from "./Clock";
 import CountdownPrayerTime from "./CountdownPrayerTime";
@@ -48,12 +48,15 @@ function getCurrentPrayer(timings) {
   return { current_prayer, next_prayer };
 }
 
-export function Banner({ timezone, timings }) {
+export function Banner({ timings }) {
   const prayer = getCurrentPrayer(timings);
   return (
-    <Card className="col-span-12 sm:col-span-4 w-full h-40">
-      <CardHeader className="absolute z-20 top-0 flex justify-between text-white">
-        <div className="flex items-center gap-2 text-xl">
+    <Card className="h-1/2 w-full rounded-b-4xl" radius="none">
+      <CardHeader className="absolute z-30 top-0 flex justify-end text-white p-6">
+        <Clock />
+      </CardHeader>
+      <CardFooter className="absolute z-30 bottom-0 flex justify-between text-white py-6 px-8">
+        <div className="flex items-center gap-2 text-4xl">
           {prayer.current_prayer === "Sunrise" ? null : (
             <>
               <span>{prayer.current_prayer.prayer_name}</span>
@@ -64,22 +67,31 @@ export function Banner({ timezone, timings }) {
             </>
           )}
         </div>
-        <Clock />
-      </CardHeader>
-      <CardFooter className="absolute z-20 bottom-0 flex justify-end text-white">
-        <div className="flex items-center gap-2">
-          <span>{prayer.next_prayer.prayer_name}</span>
-          <span className="text-xs">
-            in <CountdownPrayerTime target={prayer.next_prayer.time} />
-          </span>
-        </div>
       </CardFooter>
       <Image
         removeWrapper
         alt="Card background"
-        className="z-0 w-full h-full object-cover"
-        src={getSkyImage()}
+        className="z-20 w-full h-full object-cover -inset-x-12 inset-y-8 scale-125"
+        src={"/mosque.png"}
+        radius="none"
       />
+      <img
+        src={"/cloud_1.png"}
+        className="absolute z-10 opacity-90 bottom-16 left-10 scale-200"
+      />
+        <img
+          src={"/cloud_1.png"}
+          className="absolute z-10 opacity-60 bottom-32 left-4 scale-150"
+        />
+      <img
+        src={"/cloud_2.png"}
+        className="absolute z-10 opacity-80 bottom-8 scale-125 right-12"
+      />
+      <img
+        src={"/cloud_2.png"}
+        className="absolute z-10 opacity-50 bottom-16 scale-110 right-8"
+      />
+      <div className="absolute z-0 w-full aspect-video scale-110 bg-gradient-to-bl from-rose-100 to-rose-300"></div>
       <div className="absolute bg-black z-10 w-full h-full opacity-20"></div>
     </Card>
   );

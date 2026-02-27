@@ -90,6 +90,8 @@ function reformatPrayerTimes(timings) {
 async function fetchPrayerTimes() {
   try {
     const { latitude, longitude } = await getLocation();
+    // const latitude = -27.49675753585311;
+    // const longitude = 153.0114898822021;
     // console.log("latlon", latitude, longitude);
     const date = getDate();
 
@@ -107,10 +109,10 @@ async function fetchPrayerTimes() {
     const removedTimings = removeTimings(data.timings, ignoredTimes);
     const formattedTimes = reformatPrayerTimes(removedTimings);
 
-    instance.post("/prayer/location", {
-      latitude,
-      longitude,
-    });
+    // instance.post("/prayer/location", {
+    //   latitude,
+    //   longitude,
+    // });
     const result = {
       ...data,
       timings: formattedTimes,
@@ -126,6 +128,6 @@ export function usePrayerTimes() {
   return useQuery({
     queryKey: ["prayerTimes"],
     queryFn: fetchPrayerTimes,
-    staleTime: 1000 * 60 * 60 * 2 // 2 hours
+    staleTime: 1000 * 60 * 60 * 2, // 2 hours
   });
 }

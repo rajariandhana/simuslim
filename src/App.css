@@ -1,11 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @plugin './hero.ts';
+
+@theme {
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+  --font-google: "Google Sans", sans-serif;
+}
 /* Note: You may need to change the path to fit your project structure */
 @source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
 
 .funny-rotate {
   @apply z-10 transition-all duration-300 ease-out cursor-pointer hover:-rotate-3 hover:scale-105;
+}
+
+* {
+  @apply font-jakarta;
 }
 
 /* section {

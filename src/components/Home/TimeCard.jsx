@@ -19,18 +19,19 @@ const icon_prayer = {
 };
 
 export function TimeCard({ label, time, is_active = false }) {
-  const icon_size = 24;
+  const icon_size = 20;
   const Icon = icon_prayer[label];
   return (
     <Card
       shadow="sm"
       // className={`border-2 border-primary text-primary ${is_active ? "bg-primary !text-white" : ""}`}
+      className="border border-white"
     >
-      <CardBody className="flex-row items-center gap-2">
+      <CardBody className="flex-row items-center gap-3">
         {Icon ? <Icon size={icon_size} /> : null}
         <div className="flex w-full justify-between items-center">
-          <span className="text-lg">{label}</span>
-          <span className="text-lg">{time}</span>
+          <span className="font-semibold">{label}</span>
+          <span className="text-neutral-500">{time}</span>
         </div>
       </CardBody>
     </Card>

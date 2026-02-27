@@ -4,10 +4,10 @@ export default heroui({
     light: {
       colors: {
         primary: {
-          DEFAULT: "#00bc7d",
-          foreground: "#FFFFFF",
+          // DEFAULT: "#ffba00",
+          // foreground: "#FFFFFF",
         },
-        focus: "#00bc7d",
+        // focus: "#ffba00",
       },
     },
   },

@@ -1,8 +1,8 @@
 import { Spinner } from "@heroui/react";
 import { usePrayerTimes } from "../../hooks/prayerTimes";
-import { PrayerTimes } from "./PrayerTimes";
+import { PrayerTimesCard } from "./PrayerTimesCard";
 import { Banner } from "./Banner";
-import { parseGregorianDate, parseHijriDate, parseTimezone } from "../../utils/util";
+import Location from "./Location";
 
 export const Home = () => {
   const { data: pt, isPending } = usePrayerTimes();
@@ -18,21 +18,11 @@ export const Home = () => {
     );
   }
 
-  const gregorian = parseGregorianDate(pt.date);
-  const hijri = parseHijriDate(pt.date);
-
   return (
     <>
-      <div className="flex flex-col w-full -mb-4">
-        <p className="text-tiny">
-          {gregorian} | {hijri}
-        </p>
-        <h4 className="">
-          {parseTimezone(pt.meta.timezone)}
-        </h4>
-      </div>
-      <Banner date={pt.date} timezone={pt.meta.timezone} timings={pt.timings} />
-      <PrayerTimes timings={pt.timings} />
+      <Banner timings={pt.timings} />
+      <Location date={pt.date} timezone={pt.meta.timezone} />
+      <PrayerTimesCard timings={pt.timings} />
       {/* <section>{JSON.stringify(pt, null, 2)}</section> */}
     </>
   );

@@ -1,12 +1,12 @@
 import { Chip } from "@heroui/react";
 import { useContext, useEffect, useState } from "react";
 import { timeToMinutes } from "../../utils/util";
-import { MinuteContext } from "../../context/timeContext";
+import { MinuteContext } from "../../context/TimeContext.jsx";
 
 export default function Current({ current, next }) {
-  const {time} = useContext(MinuteContext);
+  const { time } = useContext(MinuteContext);
 
-  const [color, setColor] = useState("primary");
+  const [color, setColor] = useState("success");
   const [status, setStatus] = useState("Now");
 
   useEffect(() => {
@@ -19,21 +19,24 @@ export default function Current({ current, next }) {
 
     if (diffFromCurrent >= 0 && diffFromCurrent <= 10) {
       setStatus("Just Now");
-      setColor("primary");
+      setColor("success");
     } else if (diffToNext > 0 && diffToNext <= 20) {
       setStatus("Almost Over");
       setColor("danger");
     } else {
       setStatus("Now");
-      setColor("primary");
+      setColor("success");
     }
   }, [time, current.time, next.time]);
-
+  
+  // TODO: maybe just move it into the TimeCard
   return (
     <>
-      <Chip size="sm" color={`${color}`}>
-        {status}
-      </Chip>
+      {status !== "Now" ? (
+        <Chip size="md" color={`${color}`} variant="solid">
+          {status}
+        </Chip>
+      ) : null}
     </>
   );
 }

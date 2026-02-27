@@ -23,3 +23,4 @@ next prayer countdown: in X hour | X minutes
 create time context provider
 
 give threats like "you wanna go to hell?"
+pake color pallette anak abah, design docs 01
