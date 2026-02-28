@@ -94,10 +94,12 @@ async function fetchPrayerTimes() {
     // const longitude = 153.0114898822021;
     // console.log("latlon", latitude, longitude);
     const date = getDate();
+    const tune = "0,10,0,0,0,0,0,0,0";
 
     const response = await prayerInstance.get(
-      `/timings/${date}?latitude=${latitude}&longitude=${longitude}`,
+      `/timings/${date}?latitude=${latitude}&longitude=${longitude}&tune=${tune}`,
     );
+    // console.log(response);
     const data = response.data.data;
     const ignoredTimes = [
       "Sunset",
