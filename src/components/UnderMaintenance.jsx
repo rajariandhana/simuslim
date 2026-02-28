@@ -1,4 +1,5 @@
-import { Alert, Button, Link } from "@heroui/react";
+import { Alert, Button } from "@heroui/react";
+import { Link } from "react-router";
 
 export default function UnderMaintenance() {
   const description = () => {
@@ -16,9 +17,6 @@ export default function UnderMaintenance() {
         description={description()}
         title="Under Maintenance"
       />
-      <Button color="danger" size="sm" variant="flat" as={Link} href="/">
-        Go back to home
-      </Button>
     </div>
   );
 }
