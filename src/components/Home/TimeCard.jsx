@@ -10,29 +10,29 @@ import {
 } from "react-icons/bs";
 
 const icon_prayer = {
-  Fajr: BsMoonStars,
+  Fajr: BsMoon,
   Sunrise: BsSunrise,
   Dhuhr: BsSun,
   Asr: BsCloudSun,
   Maghrib: BsSunset,
-  Isha: BsMoon,
+  Isha: BsMoonStars,
 };
 
-export function TimeCard({ label, time, is_active = false }) {
-  const icon_size = 20;
+export function TimeCard({ label, time, tag }) {
+  const icon_size = 18;
   const Icon = icon_prayer[label];
   return (
     <Card
       shadow="sm"
-      // className={`border-2 border-primary text-primary ${is_active ? "bg-primary !text-white" : ""}`}
       className="border border-white"
     >
-      <CardBody className="flex-row items-center gap-3">
-        {Icon ? <Icon size={icon_size} /> : null}
-        <div className="flex w-full justify-between items-center">
+      <CardBody className="flex-row items-center gap-3 justify-between">
+        <div className="flex items-center gap-2">
+          {Icon ? <Icon size={icon_size} /> : null}
           <span className="font-semibold">{label}</span>
-          <span className="text-neutral-500">{time}</span>
+          {tag ?? null}
         </div>
+        <span className="text-neutral-500">{time}</span>
       </CardBody>
     </Card>
   );

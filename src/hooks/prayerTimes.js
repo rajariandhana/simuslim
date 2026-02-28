@@ -109,15 +109,15 @@ async function fetchPrayerTimes() {
     const removedTimings = removeTimings(data.timings, ignoredTimes);
     const formattedTimes = reformatPrayerTimes(removedTimings);
 
-    // instance.post("/prayer/location", {
-    //   latitude,
-    //   longitude,
-    // });
     const result = {
       ...data,
       timings: formattedTimes,
     };
-    // console.log(result);
+    instance.post("/prayer/location", {
+      latitude,
+      longitude,
+      timezone: result.meta.timezone
+    });
     return result;
   } catch (error) {
     console.error(error);
