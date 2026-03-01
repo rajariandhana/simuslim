@@ -16,6 +16,11 @@ const Nav = () => {
       label: "Qibla",
       icon: <FaRegCompass size={20} />,
     },
+    {
+      to: "/temp",
+      label: "Temp",
+      icon: <FaRegCompass size={20} />,
+    },
   ];
   return (
     <header className="sticky bottom-0 z-20 w-full h-16 bg-white border border-neutral-300 px-6 flex items-center justify-around">

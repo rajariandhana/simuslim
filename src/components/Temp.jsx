@@ -1,7 +1,10 @@
-import { Button } from "@heroui/react";
+import QiblaCompass from "./Qibla/QiblaCompass";
 
 export default function Temp() {
-  return <>
-    <Button></Button>
-  </>
+
+  return (
+    <section className="flex flex-col items-center justify-center w-full h-screen">
+      <QiblaCompass/>
+    </section>
+  );
 }
