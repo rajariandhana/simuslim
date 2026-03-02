@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 import Qibla from "./components/Qibla/Qibla";
 import UnderMaintenance from "./components/UnderMaintenance";
 import Temp from "./components/Temp";
+import Compass from "./components/Compass/Compass";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/qibla" element={<Qibla />} />
+        <Route path="/compass" element={<Compass />} />
         <Route path="/temp" element={<Temp />} />
         <Route path="/:path" element={<UnderMaintenance />} />
       </Route>

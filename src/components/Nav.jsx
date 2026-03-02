@@ -17,8 +17,8 @@ const Nav = () => {
       icon: <FaRegCompass size={20} />,
     },
     {
-      to: "/temp",
-      label: "Temp",
+      to: "/compass",
+      label: "Compass",
       icon: <FaRegCompass size={20} />,
     },
   ];

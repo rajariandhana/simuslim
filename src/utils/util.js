@@ -52,4 +52,52 @@ export {
   parseTimezone,
   parseHijriDate,
   parseGregorianDate,
+  getMagneticDeclination,
+  getCardinalDirection,
 };
+
+/**
+ * Fetches magnetic declination from NOAA API
+ * @param {number} latitude - User's latitude
+ * @param {number} longitude - User's longitude
+ * @returns {Promise<number>} Magnetic declination value
+ */
+async function getMagneticDeclination(latitude, longitude) {
+  const response = await fetch(
+    `https://www.ngdc.noaa.gov/geomag-web/calculators/calculateDeclination?lat1=${latitude}&lon1=${longitude}&key=${process.env.NEXT_PUBLIC_NOAA_API_KEY}&resultFormat=json`,
+  );
+  const data = await response.json();
+
+  if (!data?.result || data?.result?.length === 0) return 0;
+
+  const declination = data.result[0].declination;
+  return declination;
+}
+
+/**
+ * Converts compass heading to cardinal direction
+ * @param {number} heading - Compass heading in degrees
+ * @returns {string} Cardinal direction (N, NE, E, SE, S, SW, W, NW)
+ */
+function getCardinalDirection(heading) {
+  let cardinalDirection;
+  if (heading >= 337.5 || heading < 22.5) {
+    cardinalDirection = "N";
+  } else if (heading >= 22.5 && heading < 67.5) {
+    cardinalDirection = "NE";
+  } else if (heading >= 67.5 && heading < 112.5) {
+    cardinalDirection = "E";
+  } else if (heading >= 112.5 && heading < 157.5) {
+    cardinalDirection = "SE";
+  } else if (heading >= 157.5 && heading < 202.5) {
+    cardinalDirection = "S";
+  } else if (heading >= 202.5 && heading < 247.5) {
+    cardinalDirection = "SW";
+  } else if (heading >= 247.5 && heading < 292.5) {
+    cardinalDirection = "W";
+  } else if (heading >= 292.5 && heading < 337.5) {
+    cardinalDirection = "NW";
+  }
+
+  return cardinalDirection;
+}
